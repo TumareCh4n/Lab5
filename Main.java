@@ -120,14 +120,30 @@ class ConnectFour{
                     B++;
                 }
             }
+            if(A == 4){
+                return 1;
+            }else if(B == 4){
+                return 2;
+            }
+        }
+
+        for(int i = 0; i < 7; i++){ //De lao a lao
+            for(int j = 0; j < 6; j++){
+                if(Grid[i][j] == "X"){
+                    X++;
+                }else if(Grid[i][j] == "O"){
+                    B++;
+                }
+            }
             if(X == 4){
                 return 1;
             }else if(B == 4){
                 return 2;
             }
         }
-        for(int i = 0; i < 7; i++){ // En diagonal pal lao
-            for(int j = 0; j < 6; j++){
+        
+        for(int i = 0; i < 7-4; i++){ // En diagonal pal lao
+            for(int j = 0; j < 6-4; j++){
                 char temp = Grid[i][j];
                 if(temp != ' ' && temp == Grid[i+1][j+1] && temp == Grid[i+2][j+2] && temp == Grid[i+3][j+3]){
                     if(temp == 'X'){
@@ -139,8 +155,8 @@ class ConnectFour{
             }
         }
 
-        for(int i = 0; i < 7; i++){ // En diagonal pal otro lao
-            for(int j = 0; j < 6; j++){
+        for(int i = 0; i < 7-4; i++){ // En diagonal pal otro lao
+            for(int j = 3; j < 6; j++){
                 char temp = Grid[i][j];
                 if(temp != ' ' && temp == Grid[i-1][j-1] && temp == Grid[i-2][j-2] && temp == Grid[i-3][j-3]){
                     if(temp == 'X'){
@@ -152,9 +168,10 @@ class ConnectFour{
             }
         }
         return 0;
-    };
+    }
 
-}
+};
+
 class Game{
     private String Status;
     private String WinnerPlayerName;
