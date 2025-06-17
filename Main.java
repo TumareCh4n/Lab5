@@ -86,8 +86,8 @@ class ConnectFour{
     private char[][] Grid = new char[7][6];
     private char CurrentSymbol;
 
-    public ConnectFour(char CurrentSymbol, char[][] Grid){
-        this.CurrentSymbol = "X"; //En teoria, X pq siempre inicia X
+    public ConnectFour(char CurrentSymbol){
+        this.CurrentSymbol = 'X'; //En teoria, X pq siempre inicia X
         for(int i = 0; i < 7; i++){
             for(int j = 0; j < 6; j++){
                 Grid[i][j] = ' ';
@@ -102,9 +102,9 @@ class ConnectFour{
                 return true;
             }
             else{
-                return false;
             }
         }
+            return false;
     }
 
     public int isGameOver() { //retorna 0 si no se ha acabado, 1 si ganó pA, 2 si ganó pB, 3 si empataron
@@ -114,9 +114,9 @@ class ConnectFour{
             A=0;
             B=0;
             for(int j = 0; j < 6; j++){
-                if(Grid[i][j] == "X"){
-                    X++;
-                }else if(Grid[i][j] == "O"){
+                if(Grid[i][j] == 'X'){
+                    A++;
+                }else if(Grid[i][j] == 'O'){
                     B++;
                 }
             }
