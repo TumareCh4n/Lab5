@@ -107,16 +107,16 @@ class ConnectFour{
             return false;
     }
 
-    public int isGameOver() { //retorna 0 si no se ha acabado, 1 si ganó pA, 2 si ganó pB, 3 si empataron
+    public int isGameOver() { //retorna 0 si naca se ha acabado, 1 si ganó papuA, 2 si ganó papuB, 3 si empataron noma
         int A;
         int B;
         for(int i = 0; i < 7; i++){ //revisa todas las columnas pa ver si ganó
             A=0;
             B=0;
             for(int j = 0; j < 6; j++){
-                if(Grid[i][j] == 'X'){
-                    A++;
-                }else if(Grid[i][j] == 'O'){
+                if(Grid[i][j] == "X"){
+                    X++;
+                }else if(Grid[i][j] == "O"){
                     B++;
                 }
             }
@@ -126,13 +126,33 @@ class ConnectFour{
                 return 2;
             }
         }
-        for(int i = 0; i < 7; i++){
+        for(int i = 0; i < 7; i++){ // En diagonal pal lao
             for(int j = 0; j < 6; j++){
-                
+                char temp = Grid[i][j];
+                if(temp != ' ' && temp == Grid[i+1][j+1] && temp == Grid[i+2][j+2] && temp == Grid[i+3][j+3]){
+                    if(temp == 'X'){
+                        return 1;
+                    }else if(temp == 'O'){
+                        return 2;
+                    }
+                }
             }
         }
-        return
-    }
+
+        for(int i = 0; i < 7; i++){ // En diagonal pal otro lao
+            for(int j = 0; j < 6; j++){
+                char temp = Grid[i][j];
+                if(temp != ' ' && temp == Grid[i-1][j-1] && temp == Grid[i-2][j-2] && temp == Grid[i-3][j-3]){
+                    if(temp == 'X'){
+                        return 1;
+                    }else if(temp == 'O'){
+                        return 2;
+                    }
+                }
+            }
+        }
+        return 0;
+    };
 
 }
 class Game{
