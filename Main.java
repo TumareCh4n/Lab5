@@ -114,9 +114,9 @@ class ConnectFour{
             A=0;
             B=0;
             for(int j = 0; j < 6; j++){
-                if(Grid[i][j] == "X"){
+                if(Grid[i][j] == 'X'){
                     X++;
-                }else if(Grid[i][j] == "O"){
+                }else if(Grid[i][j] == 'O'){
                     B++;
                 }
             }
@@ -129,9 +129,9 @@ class ConnectFour{
 
         for(int i = 0; i < 7; i++){ //De lao a lao
             for(int j = 0; j < 6; j++){
-                if(Grid[i][j] == "X"){
+                if(Grid[i][j] == 'X'){
                     X++;
-                }else if(Grid[i][j] == "O"){
+                }else if(Grid[i][j] == 'O'){
                     B++;
                 }
             }
