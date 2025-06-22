@@ -13,6 +13,8 @@ class Player{
         this.Draws = 0;
         this.Losses = 0;
     }
+
+    //hola xD
     public void SetPlayerName (String NewPlayerName) {
         PlayerName = NewPlayerName;
     }
