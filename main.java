@@ -48,6 +48,7 @@ class Player{
         }
     }
 
+
     public void PrintWeas() {
         System.out.println("PlayerName : " + PlayerName);
         System.out.println("Wins : " + Wins);
