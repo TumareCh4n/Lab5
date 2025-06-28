@@ -177,6 +177,10 @@ class Scoreboard {
 class ConnectFour{
     private char[][] Grid = new char[7][6];
     private char CurrentSymbol;
+    
+    public char getCurrentSymbol() {
+    return CurrentSymbol;
+}// para alternar el simbolo
 
     public ConnectFour(char CurrentSymbol){
         this.CurrentSymbol = 'X'; //En teoria, X pq siempre inicia X
@@ -188,9 +192,15 @@ class ConnectFour{
     }
 
     public boolean MakeMove(int z){
+        
+        if(z < 0 || z >= 7){
+            return false;
+        }
+        
         for(int i = 5; i >= 0; i--){
             if(Grid[i][z] == ' '){
                 Grid[i][z] = CurrentSymbol;
+                CurrentSymbol = (CurrentSymbol == 'X') ? 'O' : 'X'; // alterna símbolo
                 return true;
             }
             else{
@@ -200,8 +210,8 @@ class ConnectFour{
     }
 
     public int isGameOver() { //retorna 0 si naca se ha acabado, 1 si ganó papuA, 2 si ganó papuB, 3 si empataron noma
-        int A;
-        int B;
+        int A = 0;
+        int B = 0;
         for(int i = 0; i < 7; i++){ //revisa todas las columnas pa ver si ganó
             A=0;
             B=0;
@@ -262,7 +272,7 @@ class ConnectFour{
         return 0;
     }
 
-};
+}; // me parece que esta listo, aunque el constructor no me convence
 
 class Game{
     private String Status;
@@ -310,6 +320,60 @@ class Game{
     public ConnectFour GetConnectFour() {
         return ConnectFour;
     }
+    
+    public char[][] getGrid() {//para imprimir la tabla con menos problema
+    return Grid;
+}
+
+    
+    public String play() {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            printBoard();
+
+            String currentPlayer = (ConnectFour.getCurrentSymbol() == 'X') ? PlayerNameA : PlayerNameB;
+            System.out.print("Turno de " + currentPlayer + " (" + ConnectFour.getCurrentSymbol() + ") - Ingrese columna (0-6): ");
+
+            int column;
+            try {
+                column = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Debes ingresar un número entre 0 y 6.");
+                scanner.next(); // limpiar buffer
+                continue;
+            }
+
+            boolean valid = ConnectFour.MakeMove(column);
+            if (!valid) {
+                System.out.println("Movimiento inválido. Intenta de nuevo.");
+                continue;
+            }
+
+            int result = ConnectFour.isGameOver();
+            if (result == 1 || result == 2) {
+                Status = "VICTORY";
+                WinnerPlayerName = (result == 1) ? PlayerNameA : PlayerNameB;
+                System.out.println("¡Victoria de " + WinnerPlayerName + "!");
+                return WinnerPlayerName;
+            } else if (result == 3) {
+                Status = "DRAW";
+                System.out.println("¡Empate!");
+                return "";
+            }
+        }
+    }
+
+    private void printBoard() { //este es un metodo que deeeeveeriiiia imprimir de forma correcta el tablero
+        System.out.println(" 0 1 2 3 4 5 6");
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 7; j++) {
+                System.out.print("|" + ConnectFour.getGrid()[j][i]);
+            }
+            System.out.println("|");
+        }
+        System.out.println("-----------------");
+    }
+    
 
     public void PrintWeas() {
         System.out.println("Status : " + Status);
@@ -317,10 +381,9 @@ class Game{
         System.out.println("PlayerNameA : " + PlayerNameA);
         System.out.println("PlayerNameB : " + PlayerNameB);
         System.out.println("ConnectFour : " + ConnectFour);
-    }};
+    }};//listo
 
-public class Main
-{
+public class Main{
     public static void main(String[] args) {
         System.out.println("Hello World");
     }
