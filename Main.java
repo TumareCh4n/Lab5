@@ -56,31 +56,123 @@ class Player{
         System.out.println("Losses : " + Losses);
     }}; //Listoko
 
-class Scoreboard{
-    private BST<int, String> WinTree;
+class Scoreboard {
+    private BST<Integer, List<String>> WinTree;
     private HashST<String, Player> Players;
     private int PlayedGames;
 
-    public void AddGameResult(String WinnerPlayerName, String LooserPlayerName, boolean Draw){
-
+    public Scoreboard() {
+        WinTree = new BST<>();
+        Players = new HashST<>();
+        PlayedGames = 0;
     }
 
-    public void RegisterPlayer(String PlayerName){
+    public void AddGameResult(String WinnerPlayerName, String LooserPlayerName, boolean Draw) {
+        if (!Players.contains(WinnerPlayerName) || !Players.contains(LooserPlayerName)) return;
 
+        Player Winner = Players.get(WinnerPlayerName);
+        Player Loser = Players.get(LooserPlayerName);
+
+        // Eliminar del árbol al ganador actual (si tenía victorias)
+        int OldWinnerWins = Winner.getWins();
+        List<String> WinnerList = WinTree.get(OldWinnerWins);
+        if (WinnerList != null) {
+            WinnerList.remove(WinnerPlayerName);
+            if (WinnerList.isEmpty()) {
+                WinTree.delete(OldWinnerWins);
+            } else {
+                WinTree.put(OldWinnerWins, WinnerList);
+            }
+        }
+
+        // Eliminar del árbol al perdedor actual (si tenía victorias)
+        int OldLoserWins = Loser.getWins();
+        List<String> LoserList = WinTree.get(OldLoserWins);
+        if (LoserList != null) {
+            LoserList.remove(LooserPlayerName);
+            if (LoserList.isEmpty()) {
+                WinTree.delete(OldLoserWins);
+            } else {
+                WinTree.put(OldLoserWins, LoserList);
+            }
+        }
+
+        // Actualizar estadísticas
+        if (Draw) {
+            Winner.addDraw();
+            Loser.addDraw();
+        } else {
+            Winner.addWin();
+            Loser.addLoss();
+        }
+
+        // Reinsertar al ganador en nueva posición del árbol
+        int NewWinnerWins = Winner.getWins();
+        List<String> NewWinnerList = WinTree.get(NewWinnerWins);
+        if (NewWinnerList == null) NewWinnerList = new ArrayList<>();
+        NewWinnerList.add(WinnerPlayerName);
+        WinTree.put(NewWinnerWins, NewWinnerList);
+
+        // Reinsertar al perdedor en nueva posición del árbol
+        int NewLoserWins = Loser.getWins();
+        List<String> NewLoserList = WinTree.get(NewLoserWins);
+        if (NewLoserList == null) NewLoserList = new ArrayList<>();
+        NewLoserList.add(LooserPlayerName);
+        WinTree.put(NewLoserWins, NewLoserList);
+
+        PlayedGames++;
     }
 
-    public void CheckPlayer(String PlayerName){
+     public void RegisterPlayer(String PlayerName) {
+        if (!Players.contains(PlayerName)) {
+            Player NewPlayer = new Player(PlayerName);
+            Players.put(PlayerName, NewPlayer);
 
+            List<String> Names = WinTree.get(0);
+            if (Names == null) Names = new ArrayList<>();
+            Names.add(PlayerName);
+            WinTree.put(0, Names);
+        }
     }
 
-    public Player[] WinRange(int low, int high){
-
+    public boolean CheckPlayer(String PlayerName) {
+        return Players.contains(PlayerName);
     }
 
-    public Player[] WinSuccesor(int Wins){
+     public Player[] WinRange(int Lo, int Hi) {
+        List<Player> Result = new ArrayList<>();
 
+        for (int Key : WinTree.keysInRange(Lo, Hi)) {
+            List<String> Names = WinTree.get(Key);
+            if (Names != null) {
+                for (String Name : Names) {
+                    Player P = Players.get(Name);
+                    if (P != null) Result.add(P);
+                }
+            }
+        }
+
+        return Result.toArray(new Player[0]);
     }
-};
+
+     public Player[] WinSuccesor(int Wins) {
+        Integer NextKey = WinTree.successor(Wins);
+        if (NextKey == null) return new Player[0];
+
+        List<String> Names = WinTree.get(NextKey);
+        List<Player> Result = new ArrayList<>();
+
+        if (Names != null) {
+            for (String Name : Names) {
+                Player P = Players.get(Name);
+                if (P != null) Result.add(P);
+            }
+        }
+
+        return Result.toArray(new Player[0]);
+    }
+
+} //listo
 
 class ConnectFour{
     private char[][] Grid = new char[7][6];
