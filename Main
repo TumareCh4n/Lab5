@@ -104,7 +104,7 @@ class Player{
         System.out.println("Draws : " + Draws);
         System.out.println("Losses : " + Losses);
         System.out.printf("WinRate : %.2f\n", WinRate());
-    }}; //Listoko
+    }}; 
 
 class Scoreboard {
     private BST<Integer, List<String>> WinTree;
@@ -123,6 +123,7 @@ class Scoreboard {
         Player Winner = Players.get(WinnerPlayerName);
         Player Loser = Players.get(LooserPlayerName);
 
+     
         int OldWinnerWins = Winner.GetWins();
         List<String> WinnerList = WinTree.get(OldWinnerWins);
         if (WinnerList != null) {
@@ -134,6 +135,7 @@ class Scoreboard {
             }
         }
 
+        
         int OldLoserWins = Loser.GetWins();
         List<String> LoserList = WinTree.get(OldLoserWins);
         if (LoserList != null) {
@@ -145,6 +147,7 @@ class Scoreboard {
             }
         }
 
+
         if (Draw) {
             Winner.addDraw();
             Loser.addDraw();
@@ -153,11 +156,13 @@ class Scoreboard {
             Loser.addLoss();
         }
 
+   
         int NewWinnerWins = Winner.GetWins();
         List<String> NewWinnerList = WinTree.get(NewWinnerWins);
         if (NewWinnerList == null) NewWinnerList = new ArrayList<>();
         NewWinnerList.add(WinnerPlayerName);
         WinTree.put(NewWinnerWins, NewWinnerList);
+
 
         int NewLoserWins = Loser.GetWins();
         List<String> NewLoserList = WinTree.get(NewLoserWins);
@@ -217,10 +222,10 @@ class Scoreboard {
         return Result.toArray(new Player[0]);
     }
 
-} //listo
+} 
 
 class ConnectFour {
-    private char[][] Grid = new char[6][7]; // 6 filas x 7 columnas
+    private char[][] Grid = new char[6][7]; 
     private char CurrentSymbol;
 
     public ConnectFour(char CurrentSymbol) {
@@ -254,30 +259,31 @@ class ConnectFour {
     }
 
     public int isGameOver() {
+        
         for (int r = 0; r < 6; r++) {
             for (int c = 0; c < 7; c++) {
                 char curr = Grid[r][c];
                 if (curr == ' ') continue;
 
-                // Horizontal
+              
                 if (c <= 3 && curr == Grid[r][c+1] && curr == Grid[r][c+2] && curr == Grid[r][c+3])
                     return (curr == 'X') ? 1 : 2;
 
-                // Vertical
+           
                 if (r <= 2 && curr == Grid[r+1][c] && curr == Grid[r+2][c] && curr == Grid[r+3][c])
                     return (curr == 'X') ? 1 : 2;
 
-                // Diagonal ↘
+          
                 if (r <= 2 && c <= 3 && curr == Grid[r+1][c+1] && curr == Grid[r+2][c+2] && curr == Grid[r+3][c+3])
                     return (curr == 'X') ? 1 : 2;
 
-                // Diagonal ↙
+         
                 if (r <= 2 && c >= 3 && curr == Grid[r+1][c-1] && curr == Grid[r+2][c-2] && curr == Grid[r+3][c-3])
                     return (curr == 'X') ? 1 : 2;
             }
         }
 
-        // Verificar si hay pate (tablero lleno)
+   
         boolean full = true;
         for (int c = 0; c < 7; c++) {
             if (Grid[0][c] == ' ') full = false;
@@ -285,7 +291,7 @@ class ConnectFour {
 
         return full ? 3 : 0;
     }
-}; // me parece que esta listo, aunque el constructor no me convence
+}; 
 
 class Game{
     private String Status;
@@ -349,7 +355,7 @@ class Game{
                 column = scanner.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("Entrada inválida. Debes ingresar un número entre 0 y 6.");
-                scanner.next(); // limpiar buffer
+                scanner.next(); 
                 continue;
             }
 
@@ -376,7 +382,7 @@ class Game{
 
 
 
-    private void printBoard() { //este es un metodo que deeeeveeriiiia imprimir de forma correcta el tablero
+    private void printBoard() { 
         System.out.println(" 0 1 2 3 4 5 6");
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
@@ -394,7 +400,7 @@ class Game{
         System.out.println("PlayerNameA : " + PlayerNameA);
         System.out.println("PlayerNameB : " + PlayerNameB);
         System.out.println("ConnectFour : " + ConnectFour);
-    }};//listo
+    }};
 
 public class Main {
     public static void main(String[] args) {
