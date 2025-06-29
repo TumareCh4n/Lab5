@@ -123,7 +123,6 @@ class Scoreboard {
         Player Winner = Players.get(WinnerPlayerName);
         Player Loser = Players.get(LooserPlayerName);
 
-        // Eliminar del árbol al ganador actual (si tenía victorias)
         int OldWinnerWins = Winner.GetWins();
         List<String> WinnerList = WinTree.get(OldWinnerWins);
         if (WinnerList != null) {
@@ -135,7 +134,6 @@ class Scoreboard {
             }
         }
 
-        // Eliminar del árbol al perdedor actual (si tenía victorias)
         int OldLoserWins = Loser.GetWins();
         List<String> LoserList = WinTree.get(OldLoserWins);
         if (LoserList != null) {
@@ -147,7 +145,6 @@ class Scoreboard {
             }
         }
 
-        // Actualizar estadísticas
         if (Draw) {
             Winner.addDraw();
             Loser.addDraw();
@@ -156,14 +153,12 @@ class Scoreboard {
             Loser.addLoss();
         }
 
-        // Reinsertar al ganador en nueva posición del árbol
         int NewWinnerWins = Winner.GetWins();
         List<String> NewWinnerList = WinTree.get(NewWinnerWins);
         if (NewWinnerList == null) NewWinnerList = new ArrayList<>();
         NewWinnerList.add(WinnerPlayerName);
         WinTree.put(NewWinnerWins, NewWinnerList);
 
-        // Reinsertar al perdedor en nueva posición del árbol
         int NewLoserWins = Loser.GetWins();
         List<String> NewLoserList = WinTree.get(NewLoserWins);
         if (NewLoserList == null) NewLoserList = new ArrayList<>();
@@ -259,7 +254,6 @@ class ConnectFour {
     }
 
     public int isGameOver() {
-        // Verifica horizontal, vertical y diagonales
         for (int r = 0; r < 6; r++) {
             for (int c = 0; c < 7; c++) {
                 char curr = Grid[r][c];
@@ -283,7 +277,7 @@ class ConnectFour {
             }
         }
 
-        // Verificar si hay empate (tablero lleno)
+        // Verificar si hay pate (tablero lleno)
         boolean full = true;
         for (int c = 0; c < 7; c++) {
             if (Grid[0][c] == ' ') full = false;
